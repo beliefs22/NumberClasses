@@ -1,31 +1,57 @@
 
 class Prime:
-    """A class for generating the first 10,000 Primes from list
+    """A class for generating the first n Primes. If no number is given it will
+    generate the first 10,000 Primes from list. 
 
     Attributes:
         primes (dict)= where the keys are the prime number
-            stored as string, and the value is the value of that
+            stored as int, and the value is the value of that
             prime stored as int
         ordred (list of ints)= A list containing all primes in order by value
             smalled to largest
         index (int) = used for interation initializd to 0
-        count (int) = used for generating one prime at a time initlized to 0
+        count (int) = used for generating one prime at a Prime initlized to 0
 
 """
-    def __init__(self):
+    def __init__(self,num = None):
         """
             Args: None
         """
         self.count = 0
-        __myfile = open("primes.txt",'r')        
+        self.index = 0
         self.primes = {}
         self.ordered = []
-        for line in __myfile:           
-            temp = line.rstrip("\n")
-            self.primes[temp] = int(temp)
-            self.ordered.append(int(temp))
-        __myfile.close()
-        self.index = 0
+        if num == None:
+            __myfile = open("primes.txt",'r')
+            for line in __myfile:           
+                temp = line.rstrip("\n")
+                self.primes[temp] = int(temp)
+                self.ordered.append(int(temp))
+            __myfile.close()
+        else:
+            place = 0
+            __myfile = open("primes.txt",'r')            
+            for line in __myfile:
+                if place > num:
+                    break
+                temp = line.rstrip("\n")
+                self.primes[int(temp)] = int(temp)
+                self.ordered.append(int(temp))
+                place = place + 1
+            __myfile.close()
+
+    def maxPrime(self):
+        """Returns the maximum Prime this Prime object
+        Contains
+
+        Args:
+            None
+
+        Returns:
+                Int representing max Prime
+        """
+        return self.ordered[len(self.ordered)-1]
+                
 
     def isPrime(self,num):
         """Checks if given number is Prime
@@ -39,21 +65,21 @@ class Prime:
         if num == 1:
             return True
         else:
-            return str(num) in self.primes
+            return num in self.primes
 
     def genPrime(self,length):
-        """Return a list of primes a given number in length
+        """Return a generator object of primes a given number in length
 
         Args:
-            length (int): how long the list should be
+            length (int): how many primes the generator should create
 
-        Returns:
-            list of the first "length" primes
+        Yields:
+            Generator of the first "length" primes
         """
-        prime_list = []
-        for i in range(length):
-            prime_list.append(self.ordered[i])            
-        return prime_list
+        
+        for i in xrange(length):
+            yield self.ordered[i]           
+        
 
     def getPrime(self,num):
         """Gets the ith prime where i is given number
@@ -133,6 +159,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
 
