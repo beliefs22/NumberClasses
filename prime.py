@@ -122,13 +122,15 @@ class Prime:
     def __iter__(self):
         """Iterates over entire list of primes"""
         return self
+    
     def next(self):
         if self.index == len(self.ordered)-1:
             raise StopIteration
-        temp = self.index
-        self.index = self.index +1
-        return self.ordered[temp]
-    
+        else:
+            temp = self.index
+            self.index = self.index +1
+            return self.ordered[temp]
+
 
 def main():
     t = Prime()
